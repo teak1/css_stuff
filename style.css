@@ -1,0 +1,114 @@
+:root {
+    --progress-bar-min: 0;
+    --progress-bar-max: 100;
+    --progress-bar-width: 100;
+    --progress-bar-value: 0;
+    --progress-var-color: rgb(0, 132, 255);
+    --progress-bar-color-hover: rgb(0, 183, 255);
+}
+
+.progress-bar {
+    --progress-bar-min-f: var(--progress-bar-min, 0);
+    --progress-bar-max-f: var(--progress-bar-max, 100);
+    --progress-bar-width-f: var(--progress-bar-width, 100);
+    --progress-bar-value-f: var(--progress-bar-value, 0);
+    --progress-bar-color-f: var(--progress-bar-color, rgb(0, 132, 255));
+    --progress-bar-color-hover-f: var(--progress-bar-color-hover, rgb(0, 132, 255));
+    width: calc(var(--progress-bar-width-f) * 1px);
+    padding: 4px;
+    border-radius: 5px;
+    background-color: gray;
+}
+
+.progress-bar>div {
+    width: calc(calc(calc(var(--progress-bar-value-f) / var(--progress-bar-max-f)) * calc(var(--progress-bar-width-f) - 12)) * 1px);
+    max-width: calc(calc(var(--progress-bar-width-f) - 12) * 1px);
+    background-color: var(--progress-bar-color-f, rgb(0, 132, 255));
+    color: transparent;
+    padding: 6px;
+    border-radius: 3px;
+    transition-duration: 0.2s;
+    transition-property: background-color, color;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.progress-bar>div::before {
+    counter-increment: test var(--progress-bar-value-f);
+    content: counter(test);
+    width: calc(var(--progress-bar-width-f) * 1px);
+    overflow: hidden;
+}
+
+.progress-bar:hover>div {
+    background-color: var(--progress-bar-color-hover-f);
+    color: black;
+    transition-duration: 0.2s;
+    transition-property: background-color, color;
+}
+
+.progress-bar[progress-bar-end-action="collapse"] {
+    animation-name: progress-bar-collapse;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
+.progress-bar[progress-bar-end-action="collapse"]>div {
+    animation-name: progress-bar-collapse-inside;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
+@keyframes progress-bar-collapse {
+    0% {
+        overflow: hidden;
+        height: 22pt;
+    }
+
+    40% {
+        background-color: var(--progress-bar-color-f);
+    }
+
+    50% {
+        width: calc(var(--progress-bar-width-f) * 1px);
+        height: 0px;
+    }
+
+    90% {
+        width: 0px;
+        background-color: gray;
+    }
+
+    100% {
+        width: 0px;
+        height: 0px;
+        background-color: transparent;
+        border: none;
+        display: none;
+    }
+}
+
+@keyframes progress-bar-collapse-inside {
+    0% {
+        overflow: hidden;
+        height: 1ch;
+        color: transparent;
+    }
+
+    40% {
+        height: 0px;
+        background-color: transparent;
+        border: none;
+        display: none;
+    }
+
+    100% {
+        width: 0px;
+        height: 0px;
+        background-color: transparent;
+        border: none;
+        display: none;
+    }
+}
