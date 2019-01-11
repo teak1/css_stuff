@@ -12,7 +12,7 @@
                 },
                 ...data
             };
-            if (data["progress-bar-max"] <= data["progress-bar-value"]) {
+            if (+data["progress-bar-max"] <= +data["progress-bar-value"]) {
                 if (!element.getAttribute("progress-bar-end-action") && data["progress-bar-end-action"] != "none")
                     element.setAttribute("progress-bar-end-action", data["progress-bar-end-action"]);
             }
@@ -50,6 +50,17 @@ let progress_bar_value = 0;
 function loop() {
     window.requestAnimationFrame(loop);
     if (!document.body) return;
-    !document.getElementById("progress-bar").getAttribute("progress-bar-end-action") && (document.getElementById("progress-bar").style = `--progress-bar-value:${document.getElementById("range").value};--progress-bar-width:200;--progress-bar-end-action:${document.getElementById("end-action").value};`);
+    let range = document.getElementById("range")
+    let min_val = document.getElementById("min_value");
+    let max_val = document.getElementById("max_value");
+    let width = document.getElementById("target_width");
+    if (range.min != min_value.value) range.setAttribute("min", min_val.value);
+    if (range.max != max_value.value) range.setAttribute("max", max_val.value);
+    !document.getElementById("progress-bar").getAttribute("progress-bar-end-action") && (document.getElementById("progress-bar").style = `
+    --progress-bar-value:${document.getElementById("range").value};
+    --progress-bar-width:${width.value};
+    --progress-bar-end-action:${document.getElementById("end-action").value};
+    --progress-bar-min:${min_val.value};
+    --progress-bar-max:${max_val.value};`);
 }
 loop();
